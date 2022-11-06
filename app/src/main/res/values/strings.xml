@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">education_api_git</string>
+    <string name="user_name">Имя пользователя:</string>
+    <string name="id_user">ID пользователя:</string>
+</resources>
