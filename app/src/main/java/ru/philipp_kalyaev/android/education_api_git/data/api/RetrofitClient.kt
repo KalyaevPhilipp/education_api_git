@@ -1,12 +1,14 @@
-package ru.philipp_kalyaev.android.education_api_git.repo
+package ru.philipp_kalyaev.android.education_api_git.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitClient{
-    private var retrofit: Retrofit?=null
-    fun getClient(baseUrl: String):Retrofit{
-        if(retrofit == null){
+object RetrofitClient {
+
+    private var retrofit: Retrofit? = null
+
+    fun getClient(baseUrl: String): Retrofit {
+        if (retrofit == null) {
             retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
