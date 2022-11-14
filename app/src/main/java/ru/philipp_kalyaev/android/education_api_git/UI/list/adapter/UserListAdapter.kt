@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import ru.philipp_kalyaev.android.education_api_git.R
 import ru.philipp_kalyaev.android.education_api_git.databinding.UserItemListBinding
 
@@ -35,12 +36,12 @@ class UserListAdapter(
 
         fun bind(user: User) {
             binding.userName.text = user.userName
-            binding.eachUserImage.load(user.userImage)
-           /* Picasso.get()
+            //binding.eachUserImage.load(user.userImage)
+            Picasso.get()
                 .load(user.userImage)
                 .resize(300, 300)
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(binding.eachUserImage)*/
+                .transform(CropCircleTransformation())
+                .into(binding.eachUserImage)
 
             itemView.setOnClickListener {
                 callbacks.onUserSelected(user)

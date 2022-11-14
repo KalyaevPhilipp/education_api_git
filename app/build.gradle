@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -34,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation 'jp.wasabeef:picasso-transformations:2.4.0'
     implementation "io.coil-kt:coil:2.2.2"
     implementation "com.squareup.okhttp3:okhttp:4.10.0"
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

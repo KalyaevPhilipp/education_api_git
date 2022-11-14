@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import coil.load
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import ru.philipp_kalyaev.android.education_api_git.databinding.DetailFragmentBinding
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 
@@ -27,31 +28,29 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         val userName = arguments?.getString("KEY_USER_NAME")
-         val userImg = arguments?.getString("KEY_USER_IMG")
-         val userId =  arguments?.getString("KEY_USER_ID")
+        val user = requireArguments().getParcelable<User>(KEY_USER)!!
 
-        binding!!.userNameResult.text = userName
-        binding!!.userIdResult.text = userId
-        binding!!.detailImageAvatar.load(userImg)
-      /*  Picasso.get().isLoggingEnabled = true;
+        binding!!.userNameResult.text = user.userName
+        binding!!.userIdResult.text = user.userId
+        // binding!!.detailImageAvatar.load(userImg)
+        Picasso.get().isLoggingEnabled = true;
         Picasso.get()
-            .load(userImg)
-            .resize(100,100)
-            .into(binding!!.detailImageAvatar)*/
-
-
+            .load(user.userImage)
+            .transform(CropCircleTransformation())
+            .resize(100, 100)
+            .into(binding!!.detailImageAvatar)
     }
 
     companion object {
 
+        private const val KEY_USER = "KEY_USER"
+
         fun newInstance(user: User): DetailsFragment {
             return DetailsFragment().apply {
-                arguments = bundleOf(
-                    "KEY_USER_ID" to user.userId,
-                    "KEY_USER_IMG" to user.userImage,
-                    "KEY_USER_NAME" to user.userName
-                )
+                val bundle = Bundle()
+                bundle.putParcelable(KEY_USER, user)
+
+                arguments = bundle
             }
         }
     }
