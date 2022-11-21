@@ -7,7 +7,7 @@ import ru.philipp_kalyaev.android.education_api_git.data.api.RetrofitService
 //  потом перенесём это в Dagger или Koin
 object Common {
 
-    private const val BASE_URL = "https://api.github.com/"
+    private const val BASE_URL = "https://api.github.com"
 
     val retrofitService: RetrofitService
         get() = RetrofitClient.getClient(BASE_URL).create(RetrofitService::class.java)
