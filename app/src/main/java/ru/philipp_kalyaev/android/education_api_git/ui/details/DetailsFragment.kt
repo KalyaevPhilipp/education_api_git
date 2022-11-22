@@ -13,11 +13,13 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import ru.philipp_kalyaev.android.education_api_git.databinding.DetailFragmentBinding
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 
-const val KEY_USER = "KEY_USER"
-
 class DetailsFragment : Fragment() {
 
-    private val viewModel: DetailsViewModel by viewModels()
+    private val viewModel: DetailsViewModel by viewModels {
+        DetailsViewModelFactory(
+            requireArguments().getParcelable(KEY_USER)!!
+        )
+    }
 
     private var binding: DetailFragmentBinding? = null
 
@@ -37,23 +39,10 @@ class DetailsFragment : Fragment() {
         renderUser(user)
         binding!!.progressBar.isVisible = false
         binding!!.container.isVisible = true
-        binding!!.textViewName.setOnClickListener{
-            viewModel.userState.observe(viewLifecycleOwner) { state ->
-                when (state) {
-                    DetailsViewModel.State.Loading -> {
-                        binding!!.progressBar.isVisible = true
-                        binding!!.container.isVisible = false
-                    }
-                    is DetailsViewModel.State.Success -> {
-                        binding!!.progressBar.isVisible = false
-                        binding!!.container.isVisible = true
-                        Toast.makeText(view.context,state.users.size,Toast.LENGTH_LONG)
-                    }
-                }
-            }
-
+        binding!!.textViewName.setOnClickListener {
+            viewModel.getSubscribers()
         }
-    /*
+
         viewModel.userState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 DetailsViewModel.State.Loading -> {
@@ -63,10 +52,25 @@ class DetailsFragment : Fragment() {
                 is DetailsViewModel.State.Success -> {
                     binding!!.progressBar.isVisible = false
                     binding!!.container.isVisible = true
-                    renderUser(state.users)
+                    Toast.makeText(view.context, state.users.size.toString(), Toast.LENGTH_LONG)
+                        .show()
                 }
             }
-        }*/
+        }
+        /*
+            viewModel.userState.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    DetailsViewModel.State.Loading -> {
+                        binding!!.progressBar.isVisible = true
+                        binding!!.container.isVisible = false
+                    }
+                    is DetailsViewModel.State.Success -> {
+                        binding!!.progressBar.isVisible = false
+                        binding!!.container.isVisible = true
+                        renderUser(state.users)
+                    }
+                }
+            }*/
     }
 
     private fun renderUser(user: User) {
