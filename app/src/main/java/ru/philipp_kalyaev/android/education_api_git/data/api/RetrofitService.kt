@@ -9,8 +9,8 @@ import ru.philipp_kalyaev.android.education_api_git.data.api.model.ResponseListU
 interface RetrofitService {
 
     @GET("/users")
-    fun getUserList(): Call<List<ResponseListUsers>>
+    suspend fun getUserList(): List<ResponseListUsers>
 
     @GET("/users/{login}/followers")
-    fun getSubscribersByUser(@Path("login") username: String): Call<List<ResponseListUsers>>
+    suspend fun getSubscribersByUser(@Path("login") username: String): List<ResponseListUsers>
 }

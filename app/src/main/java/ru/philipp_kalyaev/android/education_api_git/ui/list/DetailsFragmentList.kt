@@ -53,25 +53,8 @@ class DetailsFragmentList : Fragment(), Callbacks {
 
                     adapter.notifyDataSetChanged()
                 }
-
-//                UsersViewModel
-                // is UsersViewModel
             }
         }
-
-
-/*        // todo test:
-        adapter.users.add(User("1", "tekkub", "https://avatars.githubusercontent.com/u/706?v=4"))
-        adapter.users.add(
-            User(
-                "2",
-                "wonderchook",
-                "https://avatars.githubusercontent.com/u/67992?v=4"
-            )
-        )
-        adapter.users.add(User("3", "name3", "url3"))
-*/
-
     }
 
     override fun onUserSelected(user: User) {
