@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
+import ru.philipp_kalyaev.android.education_api_git.App
 import ru.philipp_kalyaev.android.education_api_git.databinding.DetailFragmentBinding
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 
@@ -17,7 +18,8 @@ class DetailsFragment : Fragment() {
 
     private val viewModel: DetailsViewModel by viewModels {
         DetailsViewModelFactory(
-            requireArguments().getParcelable(KEY_USER)!!
+            requireArguments().getParcelable(KEY_USER)!!,
+            requireActivity().application as App,
         )
     }
 

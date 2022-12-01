@@ -7,19 +7,22 @@ import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.philipp_kalyaev.android.education_api_git.App
 import ru.philipp_kalyaev.android.education_api_git.R
-import ru.philipp_kalyaev.android.education_api_git.ui.details.UserListViewModel
 import ru.philipp_kalyaev.android.education_api_git.databinding.DetailFragmentListBinding
 import ru.philipp_kalyaev.android.education_api_git.ui.details.DetailsFragment
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.Callbacks
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.UserListAdapter
 
-class DetailsFragmentList : Fragment(), Callbacks {
+class UsersListFragment : Fragment(), Callbacks {
 
-    private val viewModel_: UserListViewModel by viewModels()
+    private val viewModel_: UserListViewModel by viewModels{
+        UserListViewModelFactory(
+            requireActivity().application as App,
+        )
+    }
     private var _binding: DetailFragmentListBinding? = null
 
     private var adapter = UserListAdapter(callbacks = this)

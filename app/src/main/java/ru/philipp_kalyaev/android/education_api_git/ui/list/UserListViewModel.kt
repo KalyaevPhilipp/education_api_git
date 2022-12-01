@@ -1,29 +1,28 @@
-package ru.philipp_kalyaev.android.education_api_git.ui.details
+package ru.philipp_kalyaev.android.education_api_git.ui.list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import ru.philipp_kalyaev.android.education_api_git.App
+import ru.philipp_kalyaev.android.education_api_git.data.Common
 import ru.philipp_kalyaev.android.education_api_git.domain.GithubRepository
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 import javax.inject.Inject
 
-class DetailsViewModel(
-    private val user: User,
+class UserListViewModel(
     application: App,
 ) : ViewModel() {
 
-    val userState = MutableLiveData<State>(State.Loading)
+    var userState = MutableLiveData<State>(State.Loading)
 
     @Inject
     lateinit var repository: GithubRepository
 
     init {
         application.appComponent.inject(this)
-
-        getSubscribers()
+        repoToUser()
     }
 
     sealed interface State {
@@ -32,10 +31,10 @@ class DetailsViewModel(
         data class Success(val users: List<User>) : State
     }
 
-    fun getSubscribers() {
+    fun repoToUser() {
         viewModelScope.launch {
             try {
-                val users = repository.getDetails(username = user.userName)
+                val users = repository.getUsers()
                 userState.postValue(State.Success(users))
             } catch (e: Exception) {
                 userState.postValue(State.Error(e.localizedMessage.orEmpty()))
@@ -44,12 +43,12 @@ class DetailsViewModel(
     }
 }
 
-class DetailsViewModelFactory(
-    private val user: User,
+class UserListViewModelFactory(
     private val application: App
-) : ViewModelProvider.Factory {
+):ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(User::class.java, App::class.java)
-            .newInstance(user, application)
+        return modelClass.getConstructor(App::class.java)
+            .newInstance(application)
     }
 }
+

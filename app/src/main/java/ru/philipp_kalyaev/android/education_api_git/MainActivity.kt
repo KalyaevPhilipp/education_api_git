@@ -3,7 +3,7 @@ package ru.philipp_kalyaev.android.education_api_git
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ru.philipp_kalyaev.android.education_api_git.databinding.ActivityMainBinding
-import ru.philipp_kalyaev.android.education_api_git.ui.list.DetailsFragmentList
+import ru.philipp_kalyaev.android.education_api_git.ui.list.UsersListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val detailList = DetailsFragmentList()
+        val detailList = UsersListFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, detailList)
             .addToBackStack(null)
