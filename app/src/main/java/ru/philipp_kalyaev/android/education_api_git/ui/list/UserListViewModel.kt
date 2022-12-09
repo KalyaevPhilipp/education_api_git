@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import ru.philipp_kalyaev.android.education_api_git.App
 import ru.philipp_kalyaev.android.education_api_git.data.Common
+import ru.philipp_kalyaev.android.education_api_git.domain.DbRepository
 import ru.philipp_kalyaev.android.education_api_git.domain.GithubRepository
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 import javax.inject.Inject
@@ -16,9 +17,12 @@ class UserListViewModel(
 ) : ViewModel() {
 
     var userState = MutableLiveData<State>(State.Loading)
-
+    var userDbState = MutableLiveData<State>(State.Loading)
     @Inject
     lateinit var repository: GithubRepository
+
+    @Inject
+    lateinit var repositoryDb: DbRepository
 
     init {
         application.appComponent.inject(this)
@@ -31,13 +35,29 @@ class UserListViewModel(
         data class Success(val users: List<User>) : State
     }
 
+
+
     fun repoToUser() {
         viewModelScope.launch {
             try {
                 val users = repository.getUsers()
-                userState.postValue(State.Success(users))
+                if(users.isNotEmpty())
+                    updateDbUsers(users)
+
+            //userState.postValue(State.Success(users))
             } catch (e: Exception) {
                 userState.postValue(State.Error(e.localizedMessage.orEmpty()))
+            }
+        }
+    }
+    fun updateDbUsers(users: List<User>){
+        viewModelScope.launch {
+            try{
+                repositoryDb.setUserList(users)
+                val users = repositoryDb.getUserList()
+                userState.postValue(State.Success(users))
+            }catch(e:Exception){
+                userDbState.postValue(State.Error(e.localizedMessage.orEmpty()))
             }
         }
     }

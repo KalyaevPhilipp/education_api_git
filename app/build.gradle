@@ -6,18 +6,26 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
     viewBinding {
         enabled = true
     }
     defaultConfig {
         applicationId "ru.philipp_kalyaev.android.education_api_git"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+            }
+        }
     }
 
     buildTypes {
@@ -42,7 +50,11 @@ android {
 dependencies {
     implementation 'com.google.dagger:dagger:2.44'
     kapt 'com.google.dagger:dagger-compiler:2.44'
-    def lifecycle_version = "2.2.0"
+
+    def lifecycle_version = "2.5.1"
+    implementation 'androidx.room:room-ktx:2.4.3'
+    implementation 'androidx.room:room-runtime:2.5.0-beta02'
+    kapt 'androidx.room:room-compiler:2.5.0-beta02'
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -54,7 +66,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "io.reactivex.rxjava3:rxjava:3.1.5"
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

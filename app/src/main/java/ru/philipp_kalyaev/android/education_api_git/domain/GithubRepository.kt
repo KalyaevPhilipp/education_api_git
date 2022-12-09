@@ -8,16 +8,6 @@ import ru.philipp_kalyaev.android.education_api_git.domain.mapper.UserMapper
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 import javax.inject.Inject
 
-/*interface GithubRepository {
-    suspend fun getDetails(
-        username: String,
-    ): List<User>
-
-    fun getUsers(
-        onError: (Throwable) -> Unit,
-        onSuccess: (List<User>) -> Unit,
-    )
-}*/
 
 class GithubRepository @Inject constructor(
     private val retrofitService: RetrofitService,

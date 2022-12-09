@@ -1,11 +1,13 @@
 package ru.philipp_kalyaev.android.education_api_git.ui.details
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.philipp_kalyaev.android.education_api_git.App
+import ru.philipp_kalyaev.android.education_api_git.domain.DbRepository
 import ru.philipp_kalyaev.android.education_api_git.domain.GithubRepository
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 import javax.inject.Inject
@@ -20,9 +22,10 @@ class DetailsViewModel(
     @Inject
     lateinit var repository: GithubRepository
 
+    @Inject
+    lateinit var repositoryDb: DbRepository
     init {
         application.appComponent.inject(this)
-
         getSubscribers()
     }
 
@@ -31,7 +34,6 @@ class DetailsViewModel(
         data class Error(val errorMessage: String) : State
         data class Success(val users: List<User>) : State
     }
-
     fun getSubscribers() {
         viewModelScope.launch {
             try {

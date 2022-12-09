@@ -1,5 +1,6 @@
 package ru.philipp_kalyaev.android.education_api_git.ui.details
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,20 +60,6 @@ class DetailsFragment : Fragment() {
                 }
             }
         }
-        /*
-            viewModel.userState.observe(viewLifecycleOwner) { state ->
-                when (state) {
-                    DetailsViewModel.State.Loading -> {
-                        binding!!.progressBar.isVisible = true
-                        binding!!.container.isVisible = false
-                    }
-                    is DetailsViewModel.State.Success -> {
-                        binding!!.progressBar.isVisible = false
-                        binding!!.container.isVisible = true
-                        renderUser(state.users)
-                    }
-                }
-            }*/
     }
 
     private fun renderUser(user: User) {
@@ -90,6 +77,8 @@ class DetailsFragment : Fragment() {
                 .into(binding!!.detailImageAvatar)
         }
     }
+
+
 
     companion object {
 
