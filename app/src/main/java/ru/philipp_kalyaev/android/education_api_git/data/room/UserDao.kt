@@ -1,21 +1,23 @@
 package ru.philipp_kalyaev.android.education_api_git.data.room
 
 import androidx.room.*
-
 import ru.philipp_kalyaev.android.education_api_git.data.room.model.UserDb
-import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 
 @Dao
 interface UserDao {
     @Query("SELECT * FROM ${UserDb.TABLE_NAME}")
-    suspend fun getUsers():List<UserDb>
+    suspend fun getUsers(): List<UserDb>
+
     @Query("SELECT * FROM ${UserDb.TABLE_NAME} WHERE nodeId=(:userId)")
-    suspend fun getUser(userId:Int):List<UserDb>
+    suspend fun getUser(userId: Int): List<UserDb>
+
     @Update(entity = UserDb::class)
-    suspend fun updateUser(usedDb:UserDb)
-    @Insert(entity = UserDb::class,onConflict = OnConflictStrategy.REPLACE)
-    suspend fun createUser(usedDb:UserDb)
+    suspend fun updateUser(usedDb: UserDb)
+
+    @Insert(entity = UserDb::class, onConflict = OnConflictStrategy.REPLACE)
+    suspend fun createUser(usedDb: UserDb)
+
     @Delete(entity = UserDb::class)
-    suspend fun deleteUser(usedDb:UserDb)
+    suspend fun deleteUser(usedDb: UserDb)
 
 }

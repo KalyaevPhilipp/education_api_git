@@ -48,17 +48,20 @@ android {
 }
 
 dependencies {
+
+    implementation "com.github.terrakok:cicerone:7.1"
+
     implementation 'com.google.dagger:dagger:2.44'
     kapt 'com.google.dagger:dagger-compiler:2.44'
 
     def lifecycle_version = "2.5.1"
     implementation 'androidx.room:room-ktx:2.4.3'
-    implementation 'androidx.room:room-runtime:2.5.0-beta02'
-    kapt 'androidx.room:room-compiler:2.5.0-beta02'
+    implementation 'androidx.room:room-runtime:2.5.0-rc01'
+    kapt 'androidx.room:room-compiler:2.5.0-rc01'
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation 'androidx.fragment:fragment-ktx:1.5.4'
+    implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation 'jp.wasabeef:picasso-transformations:2.4.0'
     implementation "io.coil-kt:coil:2.2.2"
     implementation "com.squareup.okhttp3:okhttp:4.10.0"

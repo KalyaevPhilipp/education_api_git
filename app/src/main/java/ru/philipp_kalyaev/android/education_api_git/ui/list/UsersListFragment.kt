@@ -18,13 +18,12 @@ import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.UserListAdap
 
 class UsersListFragment : Fragment(), Callbacks {
 
-    private val viewModel_: UserListViewModel by viewModels{
+    private val viewModel_: UserListViewModel by viewModels {
         UserListViewModelFactory(
             requireActivity().application as App,
         )
     }
     private var _binding: DetailFragmentListBinding? = null
-
     private var adapter = UserListAdapter(callbacks = this)
 
     override fun onCreateView(
@@ -32,6 +31,7 @@ class UsersListFragment : Fragment(), Callbacks {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = DetailFragmentListBinding.inflate(inflater, container, false)
         return _binding!!.root
     }

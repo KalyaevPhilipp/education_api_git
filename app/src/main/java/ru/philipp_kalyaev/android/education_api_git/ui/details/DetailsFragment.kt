@@ -1,6 +1,5 @@
 package ru.philipp_kalyaev.android.education_api_git.ui.details
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,7 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import ru.philipp_kalyaev.android.education_api_git.App
 import ru.philipp_kalyaev.android.education_api_git.databinding.DetailFragmentBinding
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
+import javax.inject.Inject
 
 class DetailsFragment : Fragment() {
 
@@ -77,7 +77,6 @@ class DetailsFragment : Fragment() {
                 .into(binding!!.detailImageAvatar)
         }
     }
-
 
 
     companion object {
