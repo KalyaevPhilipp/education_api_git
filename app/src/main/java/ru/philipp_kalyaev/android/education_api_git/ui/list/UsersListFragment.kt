@@ -9,22 +9,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.philipp_kalyaev.android.education_api_git.App
-import ru.philipp_kalyaev.android.education_api_git.R
 import ru.philipp_kalyaev.android.education_api_git.databinding.DetailFragmentListBinding
-import ru.philipp_kalyaev.android.education_api_git.ui.details.DetailsFragment
-import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.Callbacks
-import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.UserListAdapter
 
-class UsersListFragment : Fragment(), Callbacks {
+class UsersListFragment : Fragment() {
 
     private val viewModel_: UserListViewModel by viewModels {
         UserListViewModelFactory(
-            requireActivity().application as App,
+            (requireActivity().application as App).appComponent.provideUserListViewModel(),
         )
     }
     private var _binding: DetailFragmentListBinding? = null
-    private var adapter = UserListAdapter(callbacks = this)
+    private val adapter by lazy { UserListAdapter(callbacks = viewModel_) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,14 +54,5 @@ class UsersListFragment : Fragment(), Callbacks {
                 }
             }
         }
-    }
-
-    override fun onUserSelected(user: User) {
-        val fragment = DetailsFragment.newInstance(user)
-
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
-            .addToBackStack(null)
-            .commit()
     }
 }

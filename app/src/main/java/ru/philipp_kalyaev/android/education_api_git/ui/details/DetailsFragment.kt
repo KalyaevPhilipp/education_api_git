@@ -1,5 +1,6 @@
 package ru.philipp_kalyaev.android.education_api_git.ui.details
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,15 +17,15 @@ import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 import javax.inject.Inject
 
 class DetailsFragment : Fragment() {
-
     private val viewModel: DetailsViewModel by viewModels {
         DetailsViewModelFactory(
-            requireArguments().getParcelable(KEY_USER)!!,
-            requireActivity().application as App,
+            (requireActivity().application as App).appComponent.provideDetailsViewModel().create(requireArguments().getParcelable<User>(KEY_USER)!!)
         )
     }
-
     private var binding: DetailFragmentBinding? = null
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

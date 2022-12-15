@@ -4,28 +4,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import ru.philipp_kalyaev.android.education_api_git.App
-import ru.philipp_kalyaev.android.education_api_git.domain.DbRepository
 import ru.philipp_kalyaev.android.education_api_git.domain.GithubRepository
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
-import javax.inject.Inject
 
-class DetailsViewModel(
-    private val user: User,
-    application: App,
+//class DetailsViewModel(
+//    private val user: User,
+//    application: App,
+//) : ViewModel() {
+class DetailsViewModel @AssistedInject constructor(
+    @Assisted private val user: User,
+    private val repository: GithubRepository
 ) : ViewModel() {
 
     val userState = MutableLiveData<State>(State.Loading)
 
-    @Inject
-    lateinit var repository: GithubRepository
-
-    @Inject
-    lateinit var repositoryDb: DbRepository
 
     init {
-        application.appComponent.inject(this)
         getSubscribers()
     }
 
@@ -45,14 +43,32 @@ class DetailsViewModel(
             }
         }
     }
+    @AssistedFactory
+    interface Factory {
+        fun create(user: User): DetailsViewModel
+    }
+
+}
+class DetailsViewModelFactory(
+    private val viewModel: DetailsViewModel,
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return viewModel as T
+    }
 }
 
+
+
+/*
 class DetailsViewModelFactory(
     private val user: User,
     private val application: App
+
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        //return viewModel as T
         return modelClass.getConstructor(User::class.java, App::class.java)
-            .newInstance(user, application)
+            .newInstance(user , application)
     }
 }
+*/
