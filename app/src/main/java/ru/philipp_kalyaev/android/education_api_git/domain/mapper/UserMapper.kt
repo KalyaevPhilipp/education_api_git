@@ -2,7 +2,7 @@ package ru.philipp_kalyaev.android.education_api_git.domain.mapper
 
 import ru.philipp_kalyaev.android.education_api_git.data.api.model.ResponseListUsers
 import ru.philipp_kalyaev.android.education_api_git.data.room.model.UserDb
-import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
+import ru.philipp_kalyaev.android.feature_repo.User
 
 object UserMapper {
     fun apiToDomain(apiModels: List<ResponseListUsers>): List<User> {

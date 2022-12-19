@@ -1,6 +1,5 @@
 package ru.philipp_kalyaev.android.education_api_git.ui.details
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +12,7 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import ru.philipp_kalyaev.android.education_api_git.App
 import ru.philipp_kalyaev.android.education_api_git.databinding.DetailFragmentBinding
-import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
-import javax.inject.Inject
+import ru.philipp_kalyaev.android.feature_repo.User
 
 class DetailsFragment : Fragment() {
     private val viewModel: DetailsViewModel by viewModels {

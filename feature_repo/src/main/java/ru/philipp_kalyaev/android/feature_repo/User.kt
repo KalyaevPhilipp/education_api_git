@@ -1,4 +1,4 @@
-package ru.philipp_kalyaev.android.education_api_git.ui.list.adapter
+package ru.philipp_kalyaev.android.feature_repo
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

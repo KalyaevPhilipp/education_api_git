@@ -3,11 +3,10 @@ package ru.philipp_kalyaev.android.education_api_git.ui.list.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
-import ru.philipp_kalyaev.android.education_api_git.R
 import ru.philipp_kalyaev.android.education_api_git.databinding.UserItemListBinding
+import ru.philipp_kalyaev.android.feature_repo.User
 
 class UserListAdapter(
     private var callbacks: Callbacks,

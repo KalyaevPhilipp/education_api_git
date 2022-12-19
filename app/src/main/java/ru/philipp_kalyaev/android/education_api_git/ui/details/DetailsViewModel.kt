@@ -9,7 +9,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import ru.philipp_kalyaev.android.education_api_git.domain.GithubRepository
-import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
+import ru.philipp_kalyaev.android.feature_repo.User
 
 //class DetailsViewModel(
 //    private val user: User,
