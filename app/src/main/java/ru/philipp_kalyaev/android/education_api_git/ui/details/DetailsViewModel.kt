@@ -3,11 +3,10 @@ package ru.philipp_kalyaev.android.education_api_git.ui.details
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.launch
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import ru.philipp_kalyaev.android.education_api_git.domain.GithubRepository
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
 
@@ -34,21 +33,23 @@ class DetailsViewModel @AssistedInject constructor(
     }
 
     fun getSubscribers() {
-        viewModelScope.launch {
-            try {
-                val users = repository.getDetails(username = user.userName)
-                userState.postValue(State.Success(users))
-            } catch (e: Exception) {
-                userState.postValue(State.Error(e.localizedMessage.orEmpty()))
-            }
-        }
+        repository.getDetailsByUser(username = user.userName)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                userState.postValue(State.Success(it))
+            }, {
+                userState.postValue(State.Error(it.localizedMessage.orEmpty()))
+            })
+
     }
+
     @AssistedFactory
     interface Factory {
         fun create(user: User): DetailsViewModel
     }
 
 }
+
 class DetailsViewModelFactory(
     private val viewModel: DetailsViewModel,
 ) : ViewModelProvider.Factory {
@@ -56,19 +57,3 @@ class DetailsViewModelFactory(
         return viewModel as T
     }
 }
-
-
-
-/*
-class DetailsViewModelFactory(
-    private val user: User,
-    private val application: App
-
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        //return viewModel as T
-        return modelClass.getConstructor(User::class.java, App::class.java)
-            .newInstance(user , application)
-    }
-}
-*/

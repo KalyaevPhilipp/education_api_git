@@ -1,11 +1,8 @@
 package ru.philipp_kalyaev.android.education_api_git.domain
 
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import ru.philipp_kalyaev.android.education_api_git.data.Common
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.philipp_kalyaev.android.education_api_git.data.api.RetrofitService
-import ru.philipp_kalyaev.android.education_api_git.data.api.model.ResponseListUsers
 import ru.philipp_kalyaev.android.education_api_git.data.room.UserDao
 import ru.philipp_kalyaev.android.education_api_git.domain.mapper.UserMapper
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.User
@@ -16,35 +13,34 @@ class GithubRepository @Inject constructor(
     private val retrofitService: RetrofitService,
     private val userDao: UserDao,
 ) {
-    suspend fun getDetails(
+    fun getUsers(): Single<List<User>> {
+        return retrofitService.getUserList()
+            .subscribeOn(Schedulers.io())
+            .doOnSuccess {
+                val mapped = UserMapper.apiToDomain(it)
+                for (user in mapped) {
+                    userDao.deleteUser(UserMapper.domainToDbSingle(user))
+                }
+                userDao.createUser(UserMapper.domainToDb(mapped))
+            }
+            .map(UserMapper::apiToDomain)
+    }
+
+    fun getDetailsByUser(
         username: String,
-    ): List<User> {
-        val response = retrofitService.getSubscribersByUser(username)
-        return UserMapper.apiToDomain(response)
-    }
-
-    suspend fun getUsers() {
-        val response = retrofitService.getUserList()
-        val mapped =  UserMapper.apiToDomain(response)
-        for (user in mapped) {
-            userDao.deleteUser(UserMapper.domainToDbSingle(user))
+    ): Single<List<User>> {
+        return retrofitService.getSubscribersByUser(username).map {
+            UserMapper.apiToDomain(it)
         }
-        userDao.createUser(UserMapper.domainToDb(mapped))
-    }
-    suspend fun getUserById(id: Int): List<User> {
-        val response = userDao.getUser(id)
-        return UserMapper.dbToDomain(response)
+
     }
 
-    fun getUserList(): Flow<List<User>> {
+    fun getUserList(): Single<List<User>> {
         return userDao.getUsers().map {
             UserMapper.dbToDomain(it)
         }
     }
 
-    suspend fun setUserList(users: List<User>) {
-        userDao.createUser(UserMapper.domainToDb(users))
-    }
 
 }
 

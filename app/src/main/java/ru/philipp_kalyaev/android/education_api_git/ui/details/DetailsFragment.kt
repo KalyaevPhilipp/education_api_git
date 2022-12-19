@@ -43,9 +43,9 @@ class DetailsFragment : Fragment() {
         renderUser(user)
         binding!!.progressBar.isVisible = false
         binding!!.container.isVisible = true
-        binding!!.textViewName.setOnClickListener {
-            viewModel.getSubscribers()
-        }
+        //binding!!.textViewName.setOnClickListener {
+        //    viewModel.getSubscribers()
+        //}
 
         viewModel.userState.observe(viewLifecycleOwner) { state ->
             when (state) {

@@ -9,6 +9,7 @@ import androidx.room.TypeConverters
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import ru.philipp_kalyaev.android.education_api_git.data.api.RetrofitService
@@ -30,6 +31,7 @@ class AppModule(val context: Context) {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
     }
 
@@ -44,6 +46,8 @@ class AppModule(val context: Context) {
 
     @Provides
     fun provideDatabase() =
-        Room.databaseBuilder(context, UserDataBase::class.java, "EducationDb").build()
+        Room.databaseBuilder(context, UserDataBase::class.java, "EducationDb")
+            .allowMainThreadQueries()
+            .build()
 }
 

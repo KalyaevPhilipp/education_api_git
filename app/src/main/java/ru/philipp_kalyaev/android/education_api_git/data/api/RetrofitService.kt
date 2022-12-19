@@ -1,5 +1,8 @@
 package ru.philipp_kalyaev.android.education_api_git.data.api
 
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import ru.philipp_kalyaev.android.education_api_git.data.api.model.ResponseListUsers
@@ -7,8 +10,8 @@ import ru.philipp_kalyaev.android.education_api_git.data.api.model.ResponseListU
 interface RetrofitService {
 
     @GET("/users")
-    suspend fun getUserList(): List<ResponseListUsers>
+    fun getUserList(): Single<List<ResponseListUsers>>
 
     @GET("/users/{login}/followers")
-    suspend fun getSubscribersByUser(@Path("login") username: String): List<ResponseListUsers>
+    fun getSubscribersByUser(@Path("login") username: String): Single<List<ResponseListUsers>>
 }
