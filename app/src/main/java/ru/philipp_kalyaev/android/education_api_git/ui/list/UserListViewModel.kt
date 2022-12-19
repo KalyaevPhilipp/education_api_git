@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.philipp_kalyaev.android.education_api_git.domain.GithubRepository
 import ru.philipp_kalyaev.android.education_api_git.navigation.Screens
 import ru.philipp_kalyaev.android.education_api_git.ui.list.adapter.Callbacks
@@ -49,6 +50,7 @@ class UserListViewModel @Inject constructor(
 
     private fun subscribeToUsers() {
         repository.getUserList()
+            .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
